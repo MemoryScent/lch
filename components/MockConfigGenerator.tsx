@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useCallback } from 'react';
 import { generateMockConfig } from '@/utils/mockConfigGenerator';
 import { User } from '@/types/user';
