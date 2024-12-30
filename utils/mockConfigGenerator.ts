@@ -2,7 +2,7 @@ import { User } from '@/types/user';
 
 export function generateMockConfig(users: User[]) {
   return {
-    'GET /api/users': (req: any, res: any) => {
+    'GET /api/users': (_req: any, res: any) => {
       res.json(users);
     },
     'GET /api/user/:id': (req: any, res: any) => {
@@ -15,10 +15,13 @@ export function generateMockConfig(users: User[]) {
       }
     },
     'POST /api/user': (req: any, res: any) => {
-      const newUser = req.body;
-      newUser.id = Math.max(...users.map(u => u.id)) + 1;
+      const newUser: User = {
+        ...req.body,
+        id: Math.max(0, ...users.map(u => u.id)) + 1,
+        createdAt: new Date().toISOString()
+      };
       users.push(newUser);
-      res.json(newUser);
+      res.status(201).json(newUser);
     },
     'PUT /api/user/:id': (req: any, res: any) => {
       const id = parseInt(req.params.id);
